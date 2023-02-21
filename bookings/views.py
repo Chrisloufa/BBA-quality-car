@@ -3,20 +3,16 @@ from datetime import datetime, timedelta
 from .models import *
 from django.contrib import messages
 
-
-"""Rencder the index page"""
 def index(request):
     return render(request, "index.html",{})
 
-
-"""Function to get the next 21 days"""
 def booking(request):
-    # Calling 'validWeekday' Function to Loop days you want in the next 21 days:
+    #Calling 'validWeekday' Function to Loop days you want in the next 21 days:
     weekdays = validWeekday(22)
 
-    # Only show the days that are not full:
+    #Only show the days that are not full:
     validateWeekdays = isWeekdayValid(weekdays)
-
+    
 
     if request.method == 'POST':
         service = request.POST.get('service')
@@ -25,11 +21,12 @@ def booking(request):
             messages.success(request, "Please Select A Service!")
             return redirect('booking')
 
-        # Store day and service in django session:
+        #Store day and service in django session:
         request.session['day'] = day
         request.session['service'] = service
 
         return redirect('bookingSubmit')
+
 
     return render(request, 'booking.html', {
             'weekdays':weekdays,
@@ -39,10 +36,7 @@ def booking(request):
 def bookingSubmit(request):
     user = request.user
     times = [
-        "8:00 AM", "8:30 AM", "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM",
-        "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM",
-        "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM",
-        "5:00 PM"
+        "3 PM", "3:30 PM", "4 PM", "4:30 PM", "5 PM", "5:30 PM", "6 PM", "6:30 PM", "7 PM", "7:30 PM"
     ]
     today = datetime.now()
     minDate = today.strftime('%Y-%m-%d')
@@ -50,11 +44,11 @@ def bookingSubmit(request):
     strdeltatime = deltatime.strftime('%Y-%m-%d')
     maxDate = strdeltatime
 
-    # Get stored data from django session:
+    #Get stored data from django session:
     day = request.session.get('day')
     service = request.session.get('service')
     
-    # Only show the time of the day that has not been selected before:
+    #Only show the time of the day that has not been selected before:
     hour = checkTime(times, day)
     if request.method == 'POST':
         time = request.POST.get("time")
@@ -93,8 +87,8 @@ def userPanel(request):
     user = request.user
     appointments = Appointment.objects.filter(user=user).order_by('day', 'time')
     return render(request, 'userPanel.html', {
-        'user': user,
-        'appointments': appointments,
+        'user':user,
+        'appointments':appointments,
     })
 
 def userUpdate(request, id):
@@ -134,10 +128,7 @@ def userUpdate(request, id):
 def userUpdateSubmit(request, id):
     user = request.user
     times = [
-        "8:00 AM", "8:30 AM", "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM",
-        "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM",
-        "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM",
-        "5:00 PM"
+        "3 PM", "3:30 PM", "4 PM", "4:30 PM", "5 PM", "5:30 PM", "6 PM", "6:30 PM", "7 PM", "7:30 PM"
     ]
     today = datetime.now()
     minDate = today.strftime('%Y-%m-%d')
@@ -219,7 +210,7 @@ def validWeekday(days):
 def isWeekdayValid(x):
     validateWeekdays = []
     for j in x:
-        if Appointment.objects.filter(date=j).count() < 10:
+        if Appointment.objects.filter(day=j).count() < 10:
             validateWeekdays.append(j)
     return validateWeekdays
 

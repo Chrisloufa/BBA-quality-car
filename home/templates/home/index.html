@@ -1,27 +1,24 @@
-{% extends "base.html" %}
+{% extends 'layout.html' %}
 {% load static %}
 
-{% block page_header %}
-    <div class="container header-container">
-        <div class="row">
-            <div class="col"></div>
-        </div>
-    </div>
+{% block head %}
+<title>Home</title>
 {% endblock %}
 
-{% block content %}
-    <div class="container h-100">
-        <div class="row h-100">
-            <div class="col-7 col-md-6 my-auto">
-                <h1 class="display-4 logo-font text-black">
-                    All the car repairs you need
-                </h1>
-                <div class="my-5">
-                    <h4>
-                        <a href="{% url 'booking' %}" class="shop-now-button btn btn-lg rounded-0 text-uppercase py-3">Book an appointment</a>
-                    </h4>
-                </div>
-            </div>
-        </div>
+
+{% block body %}
+
+<!--Hero 1 Start-->
+
+<div class="bg bg-secondary text-dark pt-5 pb-5">
+    <div class="text-center  pt-5 pb-5">
+        <h1 class="display-1 cGreen me-2 ms-2">BBA Quality Car</h1>
+        <p class="fs-4 mt-3">BBA Qality CAR S.R.L este un service auto mai micut dar cu o dorinta mare de a satisface
+            toate dorin</p>
+        <a type="button" class="btn btn-primary shadow  mt-5" href="{% url 'booking' %}">Online Booking</a>
     </div>
+</div>
+
+<!--Hero 1 End-->
+
 {% endblock %}
