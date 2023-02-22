@@ -1,0 +1,26 @@
+<title>Update</title>
+{% extends 'layout.html' %}
+{% load static %}
+{% block body %}
+
+
+
+{% if user.is_authenticated %}
+
+<div class="bg-white fPersian">
+    <div class="shadow p-4 mb-5 bg-body bg-body rounded text-black  m-5">
+        <h1 class="text-black p-3 ">Update user</h1>
+        <form method="POST" action="{% url 'update' %}">
+            {% csrf_token %}
+
+            {{ user_form.as_p }}
+
+            <br />
+            <button type="submit" class="btn btn-primary">Update</button>
+            </br>
+        </form>
+    </div>
+    <br /><br /><br />
+</div>
+{% endif %}
+{% endblock %}

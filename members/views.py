@@ -2,8 +2,9 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
-from .forms import RegisterUserForm
+from .forms import RegisterUserForm, UpdateUserForm
 from django.core.mail import send_mail
+from django.contrib.auth.decorators import login_required
 
 def login_user(request):
     if request.method == "POST":
@@ -41,5 +42,19 @@ def register_user(request):
     else:
         form = RegisterUserForm()
     return render(request, 'authenticate/register_user.html', {
-        'form':form,
+        'form': form,
     })
+
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        user_form = UpdateUserForm(request.POST, instance=request.user)
+
+        if user_form.is_valid():
+            user_form.save()
+            messages.success(request, 'Your profile is updated successfully')
+            return redirect(to='userPanel')
+    else:
+        user_form = UpdateUserForm(instance=request.user)
+
+    return render(request, 'authenticate/update_user.html', {'user_form': user_form})
