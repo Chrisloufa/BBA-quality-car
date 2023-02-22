@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block extra_title %} - Contact Us{% endblock %}
+
+<!-- I've Kept this page header here as it pushing the Shopping Bag title down
+    below the navigation and delivery banner -->
+{% block page_header %}
+<div class="container header-container">
+    <div class="row">
+        <div class="col"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- White background overlay div to hide the homepage background image -->
+<div class="overlay"></div>
+<div class="container h-100 faq-container">
+    <div class="row">
+        <div class="col">
+            <!-- Page Header -->
+            <h2 class="logo-font mb-4 mt-4 text-center page-title"><strong>
+                    Contact BBA Quality Cars
+                </strong></h2>
+            <hr class="w-50">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10 contact-form">
+            <form method="POST">
+                <!-- Contact Form -->
+                {% csrf_token %}
+                {{ form|crispy }}
+                <div class="submit-button text-right mb-2">
+                    <button type="submit" id="submit-button" class="btn rounded-0">
+                        <span class="font-weight-bold text-uppercase">Send Message</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
